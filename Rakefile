@@ -7,3 +7,7 @@ Rake::TestTask.new do |t|
   t.test_files = FileList['tests/test*.rb']
   t.verbose = true
 end
+
+task default: :test do
+  # Run the code.
+end
