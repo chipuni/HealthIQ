@@ -8,6 +8,10 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-task default: :test do
+task :install do
+  system('bundle install')
+end
+
+task default: %i[install test] do
   # Run the code.
 end

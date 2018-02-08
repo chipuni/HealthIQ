@@ -1,4 +1,4 @@
 # Ignore temporary files made by vim.
 .*
 !.gitignore
-
+Gemfile.lock
