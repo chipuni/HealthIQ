@@ -1,3 +1,5 @@
+require 'csv'
+
 require './lib/simple_modifier.rb'
 
 # In our model, eating food will increase blood sugar linearly
@@ -8,6 +10,23 @@ require './lib/simple_modifier.rb'
 # will be 105 and at T=2 hours, blood sugar will be 130.
 # (NOTE this is only loosely based on science)
 class Food
+  # Load the map of food names to glycemic index.
+  @database = {}
+
+  class << self
+    attr_accessor :database
+
+    CSV.foreach('./data/food.csv', converters: :numeric) do |food|
+      Food.database[food[1]] = food[2]
+    end
+  end
+
+  def self.lookup(time_start, name)
+    return Food.new(time_start, Food.database[name]) if Food.database.key?(name)
+
+    raise ArgumentError, 'No such food found!'
+  end
+
   def initialize(time_start, glycemic)
     @modifier = SimpleModifier.new(time_start, 120, glycemic)
   end
