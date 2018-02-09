@@ -10,12 +10,12 @@ require './lib/simple_modifier.rb'
 # will be 105 and at T=2 hours, blood sugar will be 130.
 # (NOTE this is only loosely based on science)
 class Food
-  # Load the map of food names to glycemic index.
   @database = {}
 
   class << self
     attr_accessor :database
 
+    # Load the map of food names to glycemic index.
     CSV.foreach('./data/food.csv', converters: :numeric) do |food|
       Food.database[food[1]] = food[2]
     end
