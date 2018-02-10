@@ -25,5 +25,6 @@ class HealthIQ
     daily_blood_sugar.each do |dbs|
       puts dbs
     end
+    puts "Glycation = #{@bloodsugar.glycation(1440)}"
   end
 end
