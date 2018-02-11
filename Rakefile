@@ -2,7 +2,8 @@
 require 'optparse'
 require 'rake/testtask'
 
-require './lib/health_iq.rb'
+require './lib/bloodsugar.rb'
+require './lib/bloodsugar_view.rb'
 
 Rake::TestTask.new do |t|
   t.libs << 'tests'
@@ -28,6 +29,14 @@ task simulator: %i[install] do
     exit(1)
   end
 
-  health_iq = HealthIQ.new(ENV['FOOD'], ENV['EXERCISE'])
-  health_iq.output
+  if ENV['GRAPH'].nil?
+    puts 'The graph will be written to result.png. If you want another location'
+    puts 'overwrite the GRAPH environment variable.'
+    ENV['GRAPH'] = 'result.png'
+  end
+
+  bloodsugar = BloodSugar.read_from_files(ENV['FOOD'], ENV['EXERCISE'])
+  bloodsugar_view = BloodSugarView.new(bloodsugar)
+  bloodsugar_view.output_graph(ENV['GRAPH'])
+  bloodsugar_view.output_text
 end
